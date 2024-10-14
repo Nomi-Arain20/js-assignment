@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator</title>
+</head>
+<body>
+
+<h2>Age Calculator</h2>
+<button id="calculateAgeButton">Calculate Your Age</button>
+<p id="result"></p>
+
+<script>
+    document.getElementById('calculateAgeButton').addEventListener('click', function() {
+        // Prompt user for input
+        const day = parseInt(prompt("Enter your birth day (1-31):"));
+        const monthInput = prompt("Enter your birth month (full name, abbreviation, or number):");
+        const year = parseInt(prompt("Enter your birth year:"));
+
+        // Month mapping
+        const monthMap = {
+            'january': 1, 'jan': 1, '1': 1,
+            'february': 2, 'feb': 2, '2': 2,
+            'march': 3, 'mar': 3, '3': 3,
+            'april': 4, 'apr': 4, '4': 4,
+            'may': 5, '5': 5,
+            'june': 6, 'jun': 6, '6': 6,
+            'july': 7, 'jul': 7, '7': 7,
+            'august': 8, 'aug': 8, '8': 8,
+            'september': 9, 'sep': 9, '9': 9,
+            'october': 10, 'oct': 10, '10': 10,
+            'november': 11, 'nov': 11, '11': 11,
+            'december': 12, 'dec': 12, '12': 12
+        };
+
+        // Determine the month number
+        const month = monthMap[monthInput.toLowerCase()];
+        if (!month) {
+            document.getElementById('result').textContent = "Invalid month input. Please refresh and try again.";
+            return;
+        }
+
+        // Calculate age
+        const birthDate = new Date(year, month - 1, day);
+        const today = new Date();
+
+        let ageYears = today.getFullYear() - birthDate.getFullYear();
+        let ageMonths = today.getMonth() - birthDate.getMonth();
+        let ageDays = today.getDate() - birthDate.getDate();
+
+        if (ageDays < 0) {
+            ageMonths -= 1;
+            ageDays += new Date(year, month - 1, 0).getDate(); // Last day of the previous month
+        }
+
+        if (ageMonths < 0) {
+            ageYears -= 1;
+            ageMonths += 12;
+        }
+
+        // Display the result
+        document.getElementById('result').textContent = `Your Age is ${ageYears} years, ${ageMonths} months, and ${ageDays} days!`;
+    });
+</script>
+
+</body>
+</html>
